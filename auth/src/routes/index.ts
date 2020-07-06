@@ -1,16 +1,16 @@
 import express from 'express';
 import currentUser from './current-user'
-import signIn from './signin'
-import signOut from './signout'
-import signUp from './signup'
+import signIn from './sign-in'
+import signOut from './sign-out'
+import signUp from './sign-up'
 
 
 const userRouter = express.Router();
 
-userRouter.get('/currentUser', currentUser);
-userRouter.post('/signin', signIn);
-userRouter.post('/signup', signUp);
-userRouter.post('/signout', signOut);
+signUp(userRouter);
+signIn(userRouter);
+signOut(userRouter);
+currentUser(userRouter);
 
 
 export default userRouter
