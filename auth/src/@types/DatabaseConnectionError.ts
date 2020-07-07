@@ -13,6 +13,7 @@ export default class DatabaseConnectionError extends CommonError {
         super();
 
         Object.setPrototypeOf(this, DatabaseConnectionError.prototype)
+
     }
 
     serializeErrors(): SerializeResponse {

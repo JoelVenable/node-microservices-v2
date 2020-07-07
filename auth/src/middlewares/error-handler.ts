@@ -1,14 +1,13 @@
 
-import { ErrorRequestHandler, Request, Response, NextFunction } from 'express'
-import { HttpError, RequestValidationError, DatabaseConnectionError } from '../@types'
+import { Request, Response, NextFunction } from 'express'
 import { CommonError } from '../@types'
+import 'express-async-errors';
 
 
 
 const errorHandler = (err: CommonError | unknown, req: Request, res: Response, next: NextFunction) => {
-    console.error(err)
-
     if (err instanceof CommonError) {
+        console.log('common error')
         res.status(err.statusCode).send(err.serializeErrors())
     } else {
         res.status(500).send({

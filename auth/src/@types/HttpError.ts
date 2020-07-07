@@ -4,17 +4,19 @@ import CommonError, { SerializeResponse } from "./CommonError";
 
 export default class HttpError extends CommonError {
 
+    public readonly statusCode: number;
 
-    statusCode: number;
-
+    private msg: string
 
     constructor(statusCode: number, message: string) {
-        super(message);
+        super();
         this.statusCode = statusCode
+        this.msg = message;
+        Object.setPrototypeOf(this, HttpError.prototype)
 
     }
 
-    serializeErrors(): SerializeResponse {
-        return { errors: [{ message: this.message }] }
+    public serializeErrors = (): SerializeResponse => {
+        return { errors: [{ message: this.msg }] }
     }
 }

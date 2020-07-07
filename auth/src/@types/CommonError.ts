@@ -12,6 +12,11 @@ export interface SerializeResponse {
 
 export default abstract class CommonError extends Error {
 
+    constructor() {
+        super();
+        Object.setPrototypeOf(this, CommonError.prototype)
+    }
+
     abstract statusCode: number
 
     abstract serializeErrors(): SerializeResponse

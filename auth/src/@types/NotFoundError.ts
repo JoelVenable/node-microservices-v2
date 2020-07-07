@@ -1,18 +1,18 @@
-import { CommonError } from ".";
+import CommonError, { SerializeResponse } from "./CommonError";
 
 
 export default class NotFoundError extends CommonError {
     statusCode = 404;
 
-    constructor(resource?: string) {
-        super(resource ? `${resource} not found` : 'Route not found');
+    private _resource: string
 
+    constructor(resource: string = 'Route') {
+        super();
+        this._resource = resource
         Object.setPrototypeOf(this, NotFoundError.prototype)
     }
 
-    serializeErrors() {
-        return { errors: [{ message: this.message }] }
+    serializeErrors(): SerializeResponse {
+        return { errors: [{ message: `${this._resource} Not Found` }] }
     }
-
-
 }

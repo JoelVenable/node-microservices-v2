@@ -5,8 +5,6 @@ import CommonError, { SerializeResponse } from './CommonError'
 export default class RequestValidationError extends CommonError {
     statusCode = 400;
 
-
-
     readonly errors: ValidationError[]
 
     constructor(public _errors: ValidationError[]) {

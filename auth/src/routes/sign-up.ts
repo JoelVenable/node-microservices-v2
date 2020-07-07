@@ -1,6 +1,7 @@
 import { Router, RequestHandler, Request, Response, NextFunction } from "express";
 import { body, validationResult } from 'express-validator'
-import { RequestValidationError } from "../@types";
+import { RequestValidationError, HttpError } from "../@types";
+import { User } from '../models';
 
 const signUp = (userRouter: Router) => userRouter.post('/signup',
     [
@@ -12,17 +13,26 @@ const signUp = (userRouter: Router) => userRouter.post('/signup',
             .isLength({ min: 4, max: 20 })
             .withMessage('Password must be between 4 and 20 characters')
     ],
-    (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             throw new RequestValidationError(errors.array())
         }
 
         const { email, password } = req.body;
+        const found = await User.findOne({ email });
 
+        if (found) {
+            console.log(found)
+            throw new HttpError(400, 'User already exists!')
+        }
 
-        console.log('Creating user');
-        res.status(201).send({ email, password })
+        try {
+            const user = await User.create({ email, password })
+            res.status(201).send(user.toJSON())
+        } catch (e) {
+            console.log(e)
+        }
     })
 
 export default signUp;
