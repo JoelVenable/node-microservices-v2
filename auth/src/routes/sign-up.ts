@@ -1,5 +1,6 @@
 import { Router, RequestHandler, Request, Response, NextFunction } from "express";
 import { body, validationResult } from 'express-validator'
+import HttpError from "../@types/HttpError";
 
 
 
@@ -16,11 +17,12 @@ const signUp = (userRouter: Router) => userRouter.post('/signup',
     (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).send(errors.array())
+            throw new HttpError(400, 'Invalid email or password')
         }
 
         const { email, password } = req.body;
 
+        throw new HttpError(500, 'Database connection down')
         console.log('Creating user');
         res.status(201).send({ email, password })
     })
