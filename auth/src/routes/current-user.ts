@@ -1,17 +1,8 @@
-import { Router, RequestHandler } from "express";
-import { TokenService } from "../services";
-import { User } from "../models";
-import { UnauthorizedError } from "../@types";
+import { Router } from "express";
+import { UserRequest, currentUser as currentUserMW } from "../middlewares";
 
-const currentUser = (userRouter: Router) => userRouter.get('/currentuser', async (req, res, next) => {
-    try {
-        const { jwt } = req.session!;
-        const currentUser = TokenService.verify(jwt)
-        res.send({ currentUser })
-    } catch (err) {
-        console.log(err)
-        res.send({ currentUser: null })
-    }
+const currentUser = (userRouter: Router) => userRouter.get('/currentuser', currentUserMW, async (req: UserRequest, res) => {
+    res.send({ currentUser: req.currentUser ?? null })
 })
 
 export default currentUser;

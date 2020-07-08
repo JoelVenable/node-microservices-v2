@@ -6,7 +6,7 @@ const { JWT_SIGNING_KEY } = process.env;
 if (typeof JWT_SIGNING_KEY !== 'string') throw new Error('Missing environment variable!')
 
 
-interface UserToken {
+export interface UserToken {
     id: string
     email: string
 }
