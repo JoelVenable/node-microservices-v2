@@ -1,3 +1,4 @@
 **/node_modules
 .env
+.env.test
 infra/k8s/secrets.yml
