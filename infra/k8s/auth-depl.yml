@@ -15,6 +15,12 @@ spec:
       containers:
         - name: auth
           image: joelmusicman/auth
+          env:
+            - name: JWT_SIGNING_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_SIGNING_KEY
 ---
 apiVersion: v1
 kind: Service

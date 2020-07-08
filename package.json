@@ -1,0 +1,23 @@
+{
+  "name": "microservices-round-two",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "set-secret": "node setSecrets.js",
+    "watch": "skaffold dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoelVenable/node-microservices-v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoelVenable/node-microservices-v2/issues"
+  },
+  "homepage": "https://github.com/JoelVenable/node-microservices-v2#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
+}

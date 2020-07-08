@@ -4,6 +4,10 @@ import { RequestValidationError, HttpError } from "../@types";
 import { User } from '../models';
 import jwt from 'jsonwebtoken';
 
+const { JWT_SIGNING_KEY } = process.env;
+if (typeof JWT_SIGNING_KEY !== 'string') throw new Error('Missing environment variable!')
+
+
 const signUp = (userRouter: Router) => userRouter.post('/signup',
     [
         body('email')
@@ -28,13 +32,12 @@ const signUp = (userRouter: Router) => userRouter.post('/signup',
         }
 
 
-
         const user = await User.create({ email, password })
 
         const userJwt = jwt.sign({
             id: user.id,
             email: user.email
-        }, 'super-secret-key')
+        }, JWT_SIGNING_KEY)
 
         req.session = { jwt: userJwt }
         res.status(201).send(user.toJSON())
