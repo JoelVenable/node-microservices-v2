@@ -17,7 +17,6 @@ const currentUser = (
         const { jwt } = req.session!;
         req.currentUser = TokenService.verify(jwt)
     } catch (err) {
-        console.log(err)
         req.currentUser = undefined;
     }
     next()

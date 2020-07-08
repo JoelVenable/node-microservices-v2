@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { body } from 'express-validator'
-import { UnauthorizedError } from "../@types";
+import { HttpError } from "../@types";
 import { User } from '../models';
 import { validateParams } from "../middlewares";
 import { TokenService } from "../services";
@@ -25,7 +25,7 @@ const signUp = (userRouter: Router) => userRouter.post('/signup',
         const found = await User.findOne({ email });
 
         if (found) {
-            throw new UnauthorizedError()
+            throw new HttpError(400, 'User already exists')
         }
 
 
