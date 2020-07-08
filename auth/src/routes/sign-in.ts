@@ -1,6 +1,9 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { body } from "express-validator";
 import { validateParams } from "../middlewares";
+import { User } from '../models'
+import { UnauthorizedError } from "../@types";
+import { CryptoService, TokenService } from "../services";
 
 
 const signIn = (userRouter: Router) => userRouter.post('/signin', [
@@ -13,8 +16,18 @@ const signIn = (userRouter: Router) => userRouter.post('/signin', [
         .withMessage('You must supply a password!')
 ],
     validateParams,
-    (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { email, password } = req.body;
 
+        const user = await User.findOne({ email })
+
+        if (!user) throw new UnauthorizedError()
+        const isMatch = await CryptoService.compare({ stored: user.password, supplied: password })
+        if (!isMatch) throw new UnauthorizedError()
+
+        const jwt = TokenService.sign(user);
+        req.session = { jwt }
+        res.send(user.toJSON())
     })
 
 

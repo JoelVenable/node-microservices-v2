@@ -9,7 +9,7 @@ interface CompareArgs {
 }
 
 
-export class Crypto {
+export class CryptoService {
 
     static async toHash(password: string): Promise<string> {
         const salt = randomBytes(16).toString('hex');

@@ -1,5 +1,5 @@
 import { prop, getModelForClass, modelOptions, pre, DocumentType } from '@typegoose/typegoose'
-import { Crypto } from '../services'
+import { CryptoService } from '../services'
 
 @modelOptions({
     schemaOptions: {
@@ -17,7 +17,7 @@ import { Crypto } from '../services'
 })
 @pre<UserClass>('save', async function (done) {
     if (this.isModified('password')) {
-        const hashed = await Crypto.toHash(this.get('password'))
+        const hashed = await CryptoService.toHash(this.get('password'))
         this.set('password', hashed)
     }
     // if (this._id === undefined || this._id === null) this._id = uuid({})
@@ -34,7 +34,7 @@ class UserClass {
 
 
 
-
+export type UserDocument = DocumentType<UserClass>
 
 
 export const User = getModelForClass(UserClass);
