@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator'
 import { RequestValidationError, HttpError } from "../@types";
 import { User } from '../models';
 import jwt from 'jsonwebtoken';
+import validateParams from "../services/validateParams";
 
 const { JWT_SIGNING_KEY } = process.env;
 if (typeof JWT_SIGNING_KEY !== 'string') throw new Error('Missing environment variable!')
@@ -19,10 +20,7 @@ const signUp = (userRouter: Router) => userRouter.post('/signup',
             .withMessage('Password must be between 4 and 20 characters')
     ],
     async (req: Request, res: Response, next: NextFunction) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            throw new RequestValidationError(errors.array())
-        }
+        validateParams(req);
 
         const { email, password } = req.body;
         const found = await User.findOne({ email });
