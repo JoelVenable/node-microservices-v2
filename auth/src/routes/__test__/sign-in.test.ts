@@ -1,17 +1,14 @@
 import request from 'supertest';
 import app from '../../app';
+import { user, signin } from '../../test/authHelper'
 
 
 const route = '/api/users/signin'
 
-const user = { email: 'test@test.com', password: 'passw0rd!' }
 
 
 beforeEach(async () => {
-    await request(app)
-        .post('/api/users/signup')
-        .send(user)
-        .expect(201)
+    await signin()
 })
 
 it('returns a 200 on successful signin', async () => {

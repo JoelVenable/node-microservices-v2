@@ -1,10 +1,11 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import request from 'supertest';
 import app from '../app';
 import { config } from 'dotenv'
 import { join } from 'path'
 
-const path = join(__dirname, '../../../.env')
+const path = join(__dirname, '../../../.env.test')
 config({ path })
 let mongo: MongoMemoryServer
 

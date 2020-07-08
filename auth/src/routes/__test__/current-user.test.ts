@@ -1,20 +1,14 @@
 import request from 'supertest';
 import app from '../../app';
+import { user, signin } from '../../test/authHelper'
 
 const route = '/api/users/currentuser'
 
-const user = { email: 'test@test.com', password: 'passw0rd!' }
 
 let cookie: string[]
 
 beforeEach(async () => {
-    const response = await request(app)
-        .post('/api/users/signup')
-        .send(user)
-        .expect(201)
-
-    cookie = response.get('Set-Cookie')
-    expect(cookie).toBeDefined()
+    cookie = await signin()
 })
 
 
@@ -45,6 +39,4 @@ it('returns null with no cookie', async () => {
     const { currentUser } = response.body;
 
     expect(currentUser).toBeNull();
-
-
 })
