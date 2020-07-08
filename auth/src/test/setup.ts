@@ -1,7 +1,11 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import app from '../app';
+import { config } from 'dotenv'
+import { join } from 'path'
 
+const path = join(__dirname, '../../../.env')
+config({ path })
 let mongo: MongoMemoryServer
 
 beforeAll(async () => {
