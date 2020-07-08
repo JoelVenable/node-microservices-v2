@@ -17,7 +17,7 @@ export class TokenService {
         return jwt.sign({
             id: user.id,
             email: user.email
-        }, JWT_SIGNING_KEY!)
+        }, JWT_SIGNING_KEY!, { expiresIn: '15m' })
     }
 
     public static verify(token: any): UserToken {
