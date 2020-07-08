@@ -12,11 +12,12 @@ export default class HttpError extends CommonError {
         super();
         this.statusCode = statusCode
         this.msg = message;
+        this.serializeErrors = (): SerializeResponse => {
+            return { errors: [{ message: this.msg }] }
+        }
         Object.setPrototypeOf(this, HttpError.prototype)
 
     }
 
-    public serializeErrors = (): SerializeResponse => {
-        return { errors: [{ message: this.msg }] }
-    }
+    public serializeErrors: () => SerializeResponse
 }

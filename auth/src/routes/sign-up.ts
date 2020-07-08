@@ -1,7 +1,8 @@
-import { Router, RequestHandler, Request, Response, NextFunction } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { body, validationResult } from 'express-validator'
 import { RequestValidationError, HttpError } from "../@types";
 import { User } from '../models';
+import jwt from 'jsonwebtoken';
 
 const signUp = (userRouter: Router) => userRouter.post('/signup',
     [
@@ -23,16 +24,21 @@ const signUp = (userRouter: Router) => userRouter.post('/signup',
         const found = await User.findOne({ email });
 
         if (found) {
-            console.log(found)
             throw new HttpError(400, 'User already exists!')
         }
 
-        try {
-            const user = await User.create({ email, password })
-            res.status(201).send(user.toJSON())
-        } catch (e) {
-            console.log(e)
-        }
+
+
+        const user = await User.create({ email, password })
+
+        const userJwt = jwt.sign({
+            id: user.id,
+            email: user.email
+        }, 'super-secret-key')
+
+        req.session = { jwt: userJwt }
+        res.status(201).send(user.toJSON())
+
     })
 
 export default signUp;
