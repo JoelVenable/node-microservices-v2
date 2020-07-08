@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { body } from "express-validator";
-import validateParams from "../services/validateParams";
+import { validateParams } from "../middlewares";
 
 
 const signIn = (userRouter: Router) => userRouter.post('/signin', [
@@ -11,10 +11,11 @@ const signIn = (userRouter: Router) => userRouter.post('/signin', [
         .trim()
         .notEmpty()
         .withMessage('You must supply a password!')
-], (req: Request, res: Response, next: NextFunction) => {
-    validateParams(req);
+],
+    validateParams,
+    (req: Request, res: Response, next: NextFunction) => {
 
-})
+    })
 
 
 export default signIn;

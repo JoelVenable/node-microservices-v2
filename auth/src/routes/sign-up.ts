@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { body, validationResult } from 'express-validator'
-import { RequestValidationError, HttpError } from "../@types";
+import { body } from 'express-validator'
+import { HttpError } from "../@types";
 import { User } from '../models';
 import jwt from 'jsonwebtoken';
-import validateParams from "../services/validateParams";
+import { validateParams } from "../middlewares";
 
 const { JWT_SIGNING_KEY } = process.env;
 if (typeof JWT_SIGNING_KEY !== 'string') throw new Error('Missing environment variable!')
@@ -19,8 +19,8 @@ const signUp = (userRouter: Router) => userRouter.post('/signup',
             .isLength({ min: 4, max: 20 })
             .withMessage('Password must be between 4 and 20 characters')
     ],
+    validateParams,
     async (req: Request, res: Response, next: NextFunction) => {
-        validateParams(req);
 
         const { email, password } = req.body;
         const found = await User.findOne({ email });
