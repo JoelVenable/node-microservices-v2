@@ -1,7 +1,6 @@
 {
   "name": "microservices-round-two",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "set-secret": "node setSecrets.js",
@@ -19,5 +18,8 @@
   "homepage": "https://github.com/JoelVenable/node-microservices-v2#readme",
   "dependencies": {
     "dotenv": "^8.2.0"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "description": "microservices demo"
 }
