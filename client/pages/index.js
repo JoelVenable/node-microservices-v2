@@ -1,10 +1,13 @@
 import Head from 'next/head'
+import axios from 'axios'
+import buildClient from '../api/buildClient'
 
-export default function Home() {
+export default function Home({ currentUser }) {
+  console.log(currentUser)
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Ticketing App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -48,7 +51,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer>
+      {/* <footer>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
@@ -57,9 +60,9 @@ export default function Home() {
           Powered by{' '}
           <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
         </a>
-      </footer>
+      </footer> */}
 
-      <style jsx>{`
+      {/* <style jsx>{`
         .container {
           min-height: 100vh;
           padding: 0 0.5rem;
@@ -203,7 +206,14 @@ export default function Home() {
         * {
           box-sizing: border-box;
         }
-      `}</style>
+      `}</style> */}
     </div>
   )
+}
+
+
+Home.getInitialProps = async (ctx) => {
+  const { data, status } = await buildClient(ctx).get('/api/users/currentuser')
+  console.log({ data, status })
+  return data
 }
