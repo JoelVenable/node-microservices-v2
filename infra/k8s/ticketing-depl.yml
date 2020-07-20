@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-depl
+  name: ticketing-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: ticketing
   template:
     metadata:
       labels:
-        app: auth
+        app: ticketing
     spec:
       containers:
-        - name: auth
-          image: joelmusicman/auth
+        - name: ticketing
+          image: joelmusicman/ticketing
           env:
             - name: JWT_SIGNING_KEY
               valueFrom:
@@ -22,18 +22,18 @@ spec:
                   name: jwt-secret
                   key: JWT_SIGNING_KEY
             - name: MONGO_CONNECTION_URI
-              value: mongodb://auth-mongo-srv:27017/auth
+                  value: mongodb://ticketing-mongo-srv:27017/ticketing
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-clusterip-srv
+  name: ticketing-clusterip-srv
 spec:
   type: ClusterIP
   selector:
-    app: auth
+    app: ticketing
   ports:
-    - name: auth
+    - name: ticketing
       protocol: TCP
       port: 3000
       targetPort: 3000
@@ -41,13 +41,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-srv
+  name: ticketing-srv
 spec:
   type: NodePort
   selector:
-    app: auth
+    app: ticketing
   ports:
-    - name: auth
+    - name: ticketing
       protocol: TCP
       port: 3000
       targetPort: 3000

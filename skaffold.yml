@@ -24,6 +24,14 @@ build:
         manual:
           - src: '**/*.js'
             dest: .
+    - image: joelmusicman/ticketing
+      context: ticketing
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
     # - image: joelmusicman/event-bus
     #   context: event-bus
     #   docker:
