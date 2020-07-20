@@ -3,7 +3,6 @@ import axios from 'axios'
 import buildClient from '../api/buildClient'
 
 export default function Home({ currentUser }) {
-  console.log(currentUser)
   return (
     <div className="container">
       <Head>
@@ -13,7 +12,7 @@ export default function Home({ currentUser }) {
 
       <main>
         <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          You are {currentUser ? 'signed in' : 'NOT signed in'}
         </h1>
 
         <p className="description">

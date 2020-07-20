@@ -1,9 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { body } from "express-validator";
-import { validateParams } from "../middlewares";
+import { validateParams, UnauthorizedError, CryptoService, TokenService } from "@jdvtickets/common";
 import { User } from '../models'
-import { UnauthorizedError } from "../@types";
-import { CryptoService, TokenService } from "../services";
 
 
 const signIn = (userRouter: Router) => userRouter.post('/signin', [
@@ -25,6 +23,7 @@ const signIn = (userRouter: Router) => userRouter.post('/signin', [
         const isMatch = await CryptoService.compare({ stored: user.password, supplied: password })
         if (!isMatch) throw new UnauthorizedError()
 
+        // @ts-ignore
         const jwt = TokenService.sign(user);
         req.session = { jwt }
         res.send(user.toJSON())

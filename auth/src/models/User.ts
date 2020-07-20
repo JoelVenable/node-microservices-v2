@@ -1,5 +1,5 @@
 import { prop, getModelForClass, modelOptions, pre, DocumentType } from '@typegoose/typegoose'
-import { CryptoService } from '../services'
+import { CryptoService } from '@jdvtickets/common'
 
 @modelOptions({
     schemaOptions: {

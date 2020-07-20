@@ -1,9 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { body } from 'express-validator'
-import { HttpError } from "../@types";
+import { HttpError, validateParams, TokenService } from "@jdvtickets/common";
 import { User } from '../models';
-import { validateParams } from "../middlewares";
-import { TokenService } from "../services";
 
 
 
@@ -31,7 +29,7 @@ const signUp = (userRouter: Router) => userRouter.post('/signup',
 
         const user = await User.create({ email, password })
 
-
+        // @ts-ignore
         const jwt = TokenService.sign(user);
         req.session = { jwt }
         res.status(201).send(user.toJSON())

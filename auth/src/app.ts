@@ -2,8 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import userRouter from './routes';
-import { errorHandler } from './middlewares';
-import { NotFoundError } from './@types';
+import { errorHandler, NotFoundError } from '@jdvtickets/common';
 import cookieSession from 'cookie-session'
 
 const app = express();
