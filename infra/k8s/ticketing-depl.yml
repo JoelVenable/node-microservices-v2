@@ -22,7 +22,7 @@ spec:
                   name: jwt-secret
                   key: JWT_SIGNING_KEY
             - name: MONGO_CONNECTION_URI
-                  value: mongodb://ticketing-mongo-srv:27017/ticketing
+              value: mongodb://ticketing-mongo-srv:27017/ticketing
 ---
 apiVersion: v1
 kind: Service
