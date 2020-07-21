@@ -3,6 +3,8 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import { errorHandler, NotFoundError } from '@jdvtickets/common';
 import cookieSession from 'cookie-session'
+import ticketsRouter from './routes'
+
 
 const app = express();
 app.set('trust proxy', true);
@@ -14,7 +16,7 @@ app.use(cookieSession({
 }))
 
 
-// app.use('/api/users', userRouter);
+app.use('/api/tickets', ticketsRouter);
 
 app.all('*', () => { throw new NotFoundError() });
 
