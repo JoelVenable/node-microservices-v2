@@ -51,10 +51,28 @@ it('returns an error if invalid title is provided', async () => {
             price: 10
         })
     expect(response.status).toEqual(400)
+
+    const secondResponse = await postSignedIn()
+        .send({
+            price: 10
+        })
+    expect(secondResponse.status).toEqual(400)
+
 })
 
-it('returns an error if invalid price is provided', () => {
+it('returns an error if invalid price is provided', async () => {
+    const response = await postSignedIn()
+        .send({
+            title: 'My awesome title',
+            price: -10
+        })
+    expect(response.status).toEqual(400)
 
+    const secondResponse = await postSignedIn()
+        .send({
+            title: 'My awesome title'
+        })
+    expect(secondResponse.status).toEqual(400)
 })
 
 it('creates a ticket with valid inputs', () => {
