@@ -10,7 +10,7 @@ const user = {
 
 const testTicket = {
     title: 'My awesome ticket',
-    price: '120.22'
+    price: 120.22
 }
 
 interface GetRoute {
@@ -36,7 +36,7 @@ it('returns 404 if ticket is not found', async () => {
     const expected = {
         errors: [
             {
-                message: 'Ticket not found'
+                message: 'Ticket Not Found'
             }
         ]
     }
@@ -52,7 +52,7 @@ it('returns a ticket if the ticket is found', async () => {
     expect(typeof id).toEqual('string')
 
     const response = await getSignedIn({ id })
-    console.log(response.body)
+
     expect(response.status).toEqual(200);
     const { title, price, userId, id: responseId } = response.body
 
