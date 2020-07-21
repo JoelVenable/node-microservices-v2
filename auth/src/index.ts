@@ -1,13 +1,12 @@
 
 import mongoose from 'mongoose';
 import app from './app'
-
-
-const MONGO_CONNECTION_STRING = 'mongodb://auth-mongo-srv:27017/auth'
+const { MONGO_CONNECTION_URI } = process.env
+if (typeof MONGO_CONNECTION_URI !== 'string') throw new Error('Connection URI undefined')
 
 const start = async () => {
     try {
-        await mongoose.connect(MONGO_CONNECTION_STRING, {
+        await mongoose.connect(MONGO_CONNECTION_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true

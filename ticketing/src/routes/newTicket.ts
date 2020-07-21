@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { UserRequest, currentUser as currentUserMW, requireAuth } from "@jdvtickets/common";
+import { UserRequest, requireAuth } from "@jdvtickets/common";
 
-const newTicket = (ticketRouter: Router) => ticketRouter.post('',
-    currentUserMW,
+const newTicket = (ticketRouter: Router) => ticketRouter.post('/',
     requireAuth,
     async (req: UserRequest, res) => {
+        console.log('hello')
         res.sendStatus(200)
     })
 
