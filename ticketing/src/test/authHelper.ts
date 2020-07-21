@@ -1,18 +1,24 @@
-import request from 'supertest'
-import app from '../app'
+import { TokenService } from '@jdvtickets/common'
 
-export const user = { email: 'test@test.com', password: 'passw0rd!' }
+interface SigninArgs {
+    email: string
+    password: string
+}
+
+interface SigninResponse {
+    session: string[]
+}
 
 
+export const signin = ({ email, password }: SigninArgs): SigninResponse => {
 
-export const signin = async () => {
-    const response = await request(app)
-        .post('/api/users/signup')
-        .send(user)
-        .expect(201)
+    const jwt = TokenService.sign({ id: '123', email })
 
-    const cookie = response.get('Set-Cookie')
-    expect(cookie).toBeDefined()
+    const stringified = JSON.stringify({ jwt })
 
-    return cookie
+    const encoded = Buffer.from(stringified).toString('base64')
+
+    const session = [`express:sess=${encoded}`]
+
+    return { session }
 }
