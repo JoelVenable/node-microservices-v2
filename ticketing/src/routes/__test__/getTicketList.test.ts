@@ -6,6 +6,7 @@ import { mongoose } from '@typegoose/typegoose'
 import { create } from 'domain'
 
 const user = {
+    id: getId(),
     email: 'test@test.com',
     password: 'passw0rd!'
 }

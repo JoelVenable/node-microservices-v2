@@ -5,6 +5,7 @@ import { Ticket } from '../../models'
 import { mongoose } from '@typegoose/typegoose'
 
 const user = {
+    id: getId(),
     email: 'test@test.com',
     password: 'passw0rd!'
 }
@@ -61,5 +62,5 @@ it('returns a ticket if the ticket is found', async () => {
     expect(responseId).toEqual(id)
     expect(title).toEqual(testTicket.title)
     expect(price).toEqual(testTicket.price)
-    expect(userId).toEqual('123')
+    expect(userId).toEqual(user.id)
 })

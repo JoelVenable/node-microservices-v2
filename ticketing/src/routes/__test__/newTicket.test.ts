@@ -1,9 +1,10 @@
 import request from 'supertest'
 import app from '../../app'
-import { signin } from '../../test/authHelper'
+import { signin, getId } from '../../test/authHelper'
 import { Ticket } from '../../models'
 
 const user = {
+    id: getId(),
     email: 'test@test.com',
     password: 'passw0rd!'
 }
