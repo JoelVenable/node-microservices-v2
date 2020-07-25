@@ -15,6 +15,10 @@ spec:
             backend:
               serviceName: auth-clusterip-srv
               servicePort: 3000
+          - path: /api/tickets/?(.*)
+            backend:
+              serviceName: ticketing-clusterip-srv
+              servicePort: 3000
           - path: /?(.*)
             backend:
               serviceName: client-clusterip-srv
