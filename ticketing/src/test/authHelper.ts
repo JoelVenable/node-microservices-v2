@@ -1,4 +1,5 @@
 import { TokenService } from '@jdvtickets/common'
+import { mongoose } from '@typegoose/typegoose'
 
 interface SigninArgs {
     email: string
@@ -22,3 +23,6 @@ export const signin = ({ email, password }: SigninArgs): SigninResponse => {
 
     return { session }
 }
+
+
+export const getId = () => new mongoose.Types.ObjectId().toHexString();
