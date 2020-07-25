@@ -112,6 +112,55 @@ it('returns an unauthorized if ticket is owned by someone else', async () => {
 
 })
 
+it('returns a 400 if title or price are missing ', async () => {
+
+    const created = await createTicket(userOne, {
+        title: 'My awesome title',
+        price: 11
+    })
+    expect(created.status).toEqual(201)
+
+    // @ts-ignore
+    const updated = await putTicket(userTwo, {
+        id: created.body.id,
+        price: 1
+    })
+
+
+    expect(updated.status).toEqual(400)
+    expect(updated.body).toStrictEqual({
+        errors: [
+            {
+                message: 'Title is required',
+                field: 'title'
+            }
+        ]
+    })
+
+    // @ts-ignore
+    const secondTry = await putTicket(userTwo, {
+        id: created.body.id,
+        title: 'My awesome title',
+    })
+
+
+    expect(secondTry.status).toEqual(400)
+    expect(secondTry.body).toStrictEqual({
+        errors: [
+            {
+                field: 'price',
+                message: 'Invalid value'
+            },
+            {
+                message: 'Price must be greater than 0',
+                field: 'price'
+            }
+        ]
+    })
+
+
+})
+
 it('updates a ticket with valid inputs', async () => {
 
     const created = await createTicket(userOne, {
