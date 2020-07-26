@@ -10,6 +10,11 @@ const client = nats.connect('ticketing-app', randomBytes(3).toString('hex'), {
 client.on('connect', () => {
     console.log('Listener Connected to NATS')
 
+    client.on('close', () => {
+        console.log('NATS connection closed');
+        process.exit();
+    })
+
     const options = client
         .subscriptionOptions()
         .setManualAckMode(true)
@@ -34,3 +39,5 @@ client.on('connect', () => {
 
 
 
+process.on('SIGINT', client.close)
+process.on('SIGTERM', client.close)

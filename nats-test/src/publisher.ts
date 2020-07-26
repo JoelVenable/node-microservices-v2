@@ -8,7 +8,10 @@ const client = nats.connect('ticketing-app', 'abc', {
 
 client.on('connect', () => {
     console.log('Publisher Connected to NATS')
-
+    client.on('close', () => {
+        console.log('NATS connection closed');
+        process.exit();
+    })
     const data = JSON.stringify({
         id: '3ojwadflsdkj',
         title: 'concert',
@@ -22,3 +25,5 @@ client.on('connect', () => {
 
 
 
+process.on('SIGINT', client.close)
+process.on('SIGTERM', client.close)
