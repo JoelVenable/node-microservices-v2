@@ -18,9 +18,9 @@ export interface ListenerProps {
 
 
 export abstract class Listener<T extends BaseEvent> {
-    abstract topic: T['subject']
+    abstract readonly topic: T['subject']
 
-    abstract queueGroupName: string
+    abstract readonly queueGroupName: string
 
     protected ackWait: number = 5 * 1000; //  5 seconds
 
@@ -39,22 +39,23 @@ export abstract class Listener<T extends BaseEvent> {
             .setDurableName(this.queueGroupName)
     }
 
-    listen<T = {}>() {
+    listen() {
         const subscription = this.client.subscribe(
             this.topic,
             this.queueGroupName,
             this.subscriptionOptions()
         )
 
-        subscription.on('message', (msg: Message) => {
+        subscription.on('message', async (msg: Message) => {
             console.log('Received Message:')
             const { topic, queueGroupName } = this;
+            const sequence = msg.getSequence()
 
-            const data = this.parseMessage(msg) as T;
+            const data = this.parseMessage(msg);
 
-            console.log(JSON.stringify({ topic, queueGroupName, data }, undefined, 3))
+            console.log(JSON.stringify({ topic, sequence, queueGroupName, data }, undefined, 3))
             try {
-                this.onMessage({ data, msg })
+                await this.onMessage({ data, msg })
                 msg.ack();
             } catch (err) {
                 console.log(err)
@@ -63,7 +64,7 @@ export abstract class Listener<T extends BaseEvent> {
     }
 
 
-    abstract onMessage(data: MessageResponse<T['data']>): any
+    abstract onMessage(data: MessageResponse<T['data']>): void | Promise<void>
 
 
 

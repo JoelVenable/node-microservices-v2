@@ -15,7 +15,8 @@ client.on('connect', () => {
     const data = JSON.stringify({
         id: '3ojwadflsdkj',
         title: 'concert',
-        price: 20
+        price: 20,
+        version: 1
     })
 
     client.publish('ticket:created', data, () => {
