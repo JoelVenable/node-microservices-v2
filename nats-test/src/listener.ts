@@ -1,7 +1,8 @@
 import nats, { Message } from 'node-nats-streaming';
+import { randomBytes } from 'crypto';
 
 console.clear();
-const client = nats.connect('ticketing-app', '123', {
+const client = nats.connect('ticketing-app', randomBytes(3).toString('hex'), {
     url: 'http://localhost:4222'
 })
 
