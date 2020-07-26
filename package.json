@@ -4,7 +4,10 @@
   "main": "index.js",
   "scripts": {
     "set-secret": "node setSecrets.js",
-    "watch": "skaffold dev"
+    "watch": "skaffold dev",
+    "set-static:ns": "kubectl apply -f infra/k8s-static/namespace.yml",
+    "set-static:secret": "kubectl apply -f infra/k8s-static/secrets.yml",
+    "set-static": "npm run set-static:ns && npm run set-static:secret"
   },
   "repository": {
     "type": "git",

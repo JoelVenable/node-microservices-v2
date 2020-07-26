@@ -22,7 +22,7 @@ stringData:
 
 
 const setSecrets = async () => {
-    const filePath = path.join(__dirname, 'infra/k8s/secrets.yml');
+    const filePath = path.join(__dirname, 'infra/k8s-static/secrets.yml');
     const secretArr = Object.entries(secrets)
     const fileContents = secretArr.map(([secretName, secrets], index) => {
         let secretObj = template
