@@ -10,7 +10,15 @@ const client = nats.connect('ticketing-app', randomBytes(3).toString('hex'), {
 client.on('connect', () => {
     console.log('Listener Connected to NATS')
 
-    const subscription = client.subscribe('ticket:created');
+    const options = client
+        .subscriptionOptions()
+        .setManualAckMode(true)
+
+    const subscription = client.subscribe(
+        'ticket:created',
+        'ListenerQG',
+        options
+    );
 
     subscription.on('message', (msg: Message) => {
         const data = msg.getData()
@@ -19,6 +27,8 @@ client.on('connect', () => {
             console.log(`Received event #${seq} with data: ${data}`)
 
         }
+
+        msg.ack()
     })
 })
 
