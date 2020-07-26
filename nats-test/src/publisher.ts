@@ -1,4 +1,15 @@
 import nats from 'node-nats-streaming';
+import { Publisher } from './events/BasePublisher'
+import { TicketCreatedEvent } from './events/TicketCreatedEvent';
+import { Topics } from './events/Topics';
+
+
+
+class TicketCreatedPublisher extends Publisher<TicketCreatedEvent> {
+    readonly topic = Topics.TicketCreated;
+
+}
+
 
 console.clear();
 const client = nats.connect('ticketing-app', 'abc', {
@@ -6,22 +17,28 @@ const client = nats.connect('ticketing-app', 'abc', {
 })
 
 
-client.on('connect', () => {
+client.on('connect', async () => {
     console.log('Publisher Connected to NATS')
-    client.on('close', () => {
-        console.log('NATS connection closed');
-        process.exit();
-    })
-    const data = JSON.stringify({
+
+    const pub = new TicketCreatedPublisher(client)
+    const data = {
         id: '3ojwadflsdkj',
         title: 'concert',
         price: 20,
         version: 1
+    }
+
+    const guid = await pub.publish(data)
+
+    console.log(guid)
+
+
+
+    client.on('close', () => {
+        console.log('NATS connection closed');
+        process.exit();
     })
 
-    client.publish('ticket:created', data, () => {
-        console.log('Event published')
-    })
 })
 
 
