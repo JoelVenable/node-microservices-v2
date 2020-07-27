@@ -1,4 +1,5 @@
-import { prop, getModelForClass, modelOptions, DocumentType } from '@typegoose/typegoose'
+import { prop, getModelForClass, modelOptions, DocumentType, plugin } from '@typegoose/typegoose'
+import { AutoIncrementSimple } from '@typegoose/auto-increment'
 
 @modelOptions({
     schemaOptions: {
@@ -13,6 +14,7 @@ import { prop, getModelForClass, modelOptions, DocumentType } from '@typegoose/t
         }
     }
 })
+@plugin(AutoIncrementSimple, [{ field: 'version' }])
 // @pre<TicketClass>('save', async function (done) {
 //     if (this.isModified('password')) {
 //         const hashed = await CryptoService.toHash(this.get('password'))
@@ -30,6 +32,9 @@ class TicketClass {
 
     @prop({ required: true })
     public price!: number
+
+    @prop({ default: 1 })
+    public version?: number
 
 }
 
