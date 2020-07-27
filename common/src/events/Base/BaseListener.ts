@@ -15,15 +15,14 @@ export abstract class Listener<T extends BaseEvent> {
 
     private readonly client: Stan;
 
+    readonly connect: Promise<this>
+
     constructor(client: Stan) {
         this.client = client
-        this.client.on('close', () => {
-            console.log('NATS connection closed');
-            process.exit();
-        })
-        process.on('SIGINT', this.client.close)
-        process.on('SIGTERM', this.client.close)
+        this.connect = this.init()
     }
+
+
 
     subscriptionOptions() {
         return this.client
@@ -34,15 +33,7 @@ export abstract class Listener<T extends BaseEvent> {
             .setDurableName(this.queueGroupName)
     }
 
-    async init() {
-
-        await new Promise((res) => {
-            this.client.on('connect', () => {
-                console.log(`${this.queueGroupName} Listener Connected to NATS`)
-                res()
-            })
-        })
-
+    private async init(): Promise<this> {
 
         const subscription = this.client.subscribe(
             this.topic,
@@ -65,6 +56,8 @@ export abstract class Listener<T extends BaseEvent> {
                 console.log(err)
             }
         })
+
+        return this
     }
 
 
