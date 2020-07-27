@@ -15,11 +15,8 @@ export abstract class Listener<T extends BaseEvent> {
 
     private readonly client: Stan;
 
-    readonly connect: Promise<this>
-
     constructor(client: Stan) {
         this.client = client
-        this.connect = this.init()
     }
 
 
@@ -33,7 +30,7 @@ export abstract class Listener<T extends BaseEvent> {
             .setDurableName(this.queueGroupName)
     }
 
-    private async init(): Promise<this> {
+    async init(): Promise<this> {
 
         const subscription = this.client.subscribe(
             this.topic,
