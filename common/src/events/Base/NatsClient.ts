@@ -1,25 +1,5 @@
 
-// const start = async () => {
-//     const pub = new TicketCreatedPublisher(client)
-//     await pub.init()
-//     const data = {
-//         id: '3ojwadflsdkj',
-//         title: 'concert',
-//         price: 20,
-//         userId: '123sdfas',
-//         version: 1
-//     }
-
-//     const guid = await pub.publish(data)
-
-// }
-
-
-// start()
-
-
-import { Stan, Message, connect, StanOptions } from "node-nats-streaming";
-import { BaseEvent } from "./BaseEvent";
+import { Stan, connect, StanOptions } from "node-nats-streaming";
 
 
 
@@ -31,50 +11,54 @@ export interface NatsClientProps extends StanOptions {
 
 
 
-export class NatsClient {
+class NatsClient {
 
-    readonly client: Stan
-
-    readonly connect: Promise<this>
+    private _client?: Stan
 
 
 
-    constructor({
+    async connect({
         uniqueId,
         serviceName = 'ticketing-app',
         serverUrl = 'http://localhost:4222',
         ackTimeout = 5 * 1000, // 5 seconds
         url,
         ...rest
-    }: NatsClientProps) {
-
-
-        this.client = connect(serviceName, uniqueId, {
+    }: NatsClientProps): Promise<Stan> {
+        this._client = connect(serviceName, uniqueId, {
             url: serverUrl,
             ...rest
         })
 
-        this.connect = this.init()
+        await this.init()
 
 
-
-        this.client.on('close', () => {
+        this._client.on('close', () => {
             console.log('NATS connection closed');
             process.exit();
         })
-        process.on('SIGINT', this.client.close)
-        process.on('SIGTERM', this.client.close)
+
+        process.on('SIGINT', this._client.close)
+        process.on('SIGTERM', this._client.close)
+
+        return this._client
     }
 
+    getClient(): Stan {
+        if (!this._client) throw new Error('Client undefined.  Try running connect() firt!')
+        return this._client
+    }
 
     private async init(): Promise<this> {
-
-        return new Promise<this>((res) => {
-            this.client.on('connect', () => {
+        return new Promise<this>((res, rej) => {
+            if (!this._client) throw new Error('Client undefined')
+            this._client.on('connect', () => {
                 console.log(`Connected to NATS`)
                 res(this)
             })
+            this._client.on('error', rej)
         })
-
     }
 }
+
+export const natsClient = new NatsClient()
