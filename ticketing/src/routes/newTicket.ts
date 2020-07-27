@@ -1,7 +1,8 @@
 import { Router, Response } from "express";
-import { UserRequest, requireAuth, validateParams, body } from "@jdvtickets/common";
+import { UserRequest, requireAuth, validateParams, body, natsClient } from "@jdvtickets/common";
 import { Ticket } from "../models";
 import { TicketCreatedPublisher } from "../events/publishers";
+
 
 const newTicket = (ticketRouter: Router) => ticketRouter.post('/',
     requireAuth,
@@ -15,6 +16,8 @@ const newTicket = (ticketRouter: Router) => ticketRouter.post('/',
         const { id: userId } = req.currentUser!
 
         const ticket = await Ticket.create({ price, title, userId })
+        const client = natsClient.getClient()
+
         new TicketCreatedPublisher(client)
             .publish({
                 id: ticket.id,
