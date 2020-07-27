@@ -1,5 +1,4 @@
 import { Stan, Message } from "node-nats-streaming";
-import { Topics } from "../Topics";
 import { BaseEvent } from "./BaseEvent";
 
 export interface MessageResponse<T extends Record<string, any>> {

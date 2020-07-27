@@ -1,6 +1,4 @@
-import { Listener, MessageResponse } from "./BaseListener";
-import { Topics } from "./Topics";
-import { TicketCreatedEvent, TicketCreatedData } from "./TicketCreatedEvent";
+import { Listener, MessageResponse, Topics, Ticket } from "@jdvtickets/common";
 
 
 
@@ -8,15 +6,12 @@ import { TicketCreatedEvent, TicketCreatedData } from "./TicketCreatedEvent";
 
 
 
-
-
-
-export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
+export class TicketCreatedListener extends Listener<Ticket.TicketCreatedEvent> {
     readonly topic = Topics.TicketCreated;
     readonly queueGroupName = 'TicketService'
 
 
-    onMessage({ data }: MessageResponse<TicketCreatedData>) {
+    onMessage({ data }: MessageResponse<Ticket.TicketCreatedData>) {
         console.log('Event data', data)
     }
 }
