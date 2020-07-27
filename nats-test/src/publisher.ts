@@ -1,9 +1,7 @@
 import nats from 'node-nats-streaming';
-import { Publisher } from './events/BasePublisher'
-import { TicketCreatedEvent } from './events/TicketCreatedEvent';
-import { Topics } from './events/Topics';
+import { Publisher, Ticket, Topics } from '@jdvtickets/common'
 
-class TicketCreatedPublisher extends Publisher<TicketCreatedEvent> {
+class TicketCreatedPublisher extends Publisher<Ticket.TicketCreatedEvent> {
     readonly topic = Topics.TicketCreated;
 
 }
@@ -20,6 +18,7 @@ const start = async () => {
         id: '3ojwadflsdkj',
         title: 'concert',
         price: 20,
+        userId: '123sdfas',
         version: 1
     }
 
