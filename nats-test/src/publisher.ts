@@ -3,24 +3,19 @@ import { Publisher } from './events/BasePublisher'
 import { TicketCreatedEvent } from './events/TicketCreatedEvent';
 import { Topics } from './events/Topics';
 
-
-
 class TicketCreatedPublisher extends Publisher<TicketCreatedEvent> {
     readonly topic = Topics.TicketCreated;
 
 }
-
 
 console.clear();
 const client = nats.connect('ticketing-app', 'abc', {
     url: 'http://localhost:4222'
 })
 
-
-client.on('connect', async () => {
-    console.log('Publisher Connected to NATS')
-
+const start = async () => {
     const pub = new TicketCreatedPublisher(client)
+    await pub.init()
     const data = {
         id: '3ojwadflsdkj',
         title: 'concert',
@@ -30,18 +25,7 @@ client.on('connect', async () => {
 
     const guid = await pub.publish(data)
 
-    console.log(guid)
+}
 
 
-
-    client.on('close', () => {
-        console.log('NATS connection closed');
-        process.exit();
-    })
-
-})
-
-
-
-process.on('SIGINT', client.close)
-process.on('SIGTERM', client.close)
+start()
