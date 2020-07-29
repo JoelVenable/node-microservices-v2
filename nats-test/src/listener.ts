@@ -1,14 +1,16 @@
-import nats, { Message, Stan } from 'node-nats-streaming';
 import { randomBytes } from 'crypto';
 import { TicketCreatedListener } from './events/TicketCreatedListener';
+import { natsClient } from '@jdvtickets/common'
 
 console.clear();
-const stan = nats.connect('ticketing-app', randomBytes(3).toString('hex'), {
-    url: 'http://localhost:4222'
-})
 
 const start = async () => {
-    const listener = new TicketCreatedListener(stan)
+
+    await natsClient.connect({
+        uniqueId: randomBytes(3).toString('hex')
+    })
+
+    const listener = new TicketCreatedListener(natsClient.getClient())
     await listener.init().catch(console.error)
 }
 

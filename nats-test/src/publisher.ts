@@ -1,5 +1,5 @@
-import nats from 'node-nats-streaming';
-import { Publisher, Ticket, Topics } from '@jdvtickets/common'
+import { Publisher, Ticket, Topics, natsClient } from '@jdvtickets/common'
+import { randomBytes } from 'crypto';
 
 class TicketCreatedPublisher extends Publisher<Ticket.TicketCreatedEvent> {
     readonly topic = Topics.TicketCreated;
@@ -7,13 +7,12 @@ class TicketCreatedPublisher extends Publisher<Ticket.TicketCreatedEvent> {
 }
 
 console.clear();
-const client = nats.connect('ticketing-app', 'abc', {
-    url: 'http://localhost:4222'
-})
 
 const start = async () => {
+    const client = await natsClient.connect({
+        uniqueId: randomBytes(4).toString('hex')
+    })
     const pub = new TicketCreatedPublisher(client)
-    await pub.init()
     const data = {
         id: '3ojwadflsdkj',
         title: 'concert',
