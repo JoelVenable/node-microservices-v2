@@ -1,6 +1,7 @@
 import { Router, Response } from "express";
-import { UserRequest, requireAuth, validateParams, body, param, NotFoundError, UnauthorizedError } from "@jdvtickets/common";
+import { UserRequest, requireAuth, validateParams, body, param, NotFoundError, UnauthorizedError, natsClient } from "@jdvtickets/common";
 import { Ticket } from "../models";
+import { TicketUpdatedPublisher } from "../events/publishers/TicketUpdatedPublisher";
 
 const newTicket = (ticketRouter: Router) => ticketRouter.put('/:id',
     requireAuth,
@@ -12,10 +13,9 @@ const newTicket = (ticketRouter: Router) => ticketRouter.put('/:id',
     validateParams,
     async (req: UserRequest, res: Response) => {
         const { title, price } = req.body
-        const { id } = req.params
         const { id: userId } = req.currentUser!
 
-        const ticket = await Ticket.findById(id);
+        const ticket = await Ticket.findById(req.params.id);
 
         if (!ticket) throw new NotFoundError('Ticket')
 
@@ -24,6 +24,14 @@ const newTicket = (ticketRouter: Router) => ticketRouter.put('/:id',
         ticket.price = price;
 
         const response = await ticket.save()
+
+        new TicketUpdatedPublisher(natsClient.getClient()).publish({
+            id: response.id!,
+            title: response.title,
+            version: response.version!,
+            price: response.price,
+            userId: response.userId
+        })
 
         res.status(200).send(response)
     })
