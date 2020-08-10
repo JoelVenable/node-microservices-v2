@@ -65,5 +65,6 @@ it('sets a cookie on successful signup', async () => {
         .expect(201)
 
     const cookie = response.get('Set-Cookie')
-    expect(cookie).toBeDefined();
+    expect(cookie).toHaveLength(1);
+    expect(cookie[0]).toMatch(new RegExp('^express:sess='))
 })

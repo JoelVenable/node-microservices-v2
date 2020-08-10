@@ -183,6 +183,7 @@ it('updates a ticket with valid inputs', async () => {
     expect(response.status).toEqual(200)
     expect(response.body.title).toEqual(title)
     expect(response.body.price).toEqual(price)
+    expect(response.body.version).toEqual(2)
 
 
 
