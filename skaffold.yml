@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2alpha3
+apiVersion: skaffold/v2beta6
 kind: Config
 deploy:
   kubectl:
@@ -6,7 +6,7 @@ deploy:
       - ./infra/k8s/*
 build:
   local:
-    push: false
+    push: true
   artifacts:
     - image: joelmusicman/auth
       context: auth

@@ -8,15 +8,16 @@ config();
 const secrets = {
     'jwt-secret': ['JWT_SIGNING_KEY']
 }
+const namespace = 'ticketing'
 
 const template = `
 apiVersion: v1
 kind: Secret
 metadata:
   name: {{secretName}}
+  namespace: ${namespace}
 type: Opaque
 stringData:
-  config.yaml: |-
 {{secrets}}
 `
 
@@ -30,7 +31,7 @@ const setSecrets = async () => {
             .replace('{{secrets}}', secrets.map((envVar) => {
                 const secretValue = process.env[envVar]
                 if (typeof secretValue !== 'string') throw new Error(`Missing secret value for: ${envVar}`)
-                return `    ${envVar}: ${secretValue}`
+                return `  ${envVar}: ${Buffer.from(secretValue).toString('base64')}`
             }).join('\n'))
         if (secretArr.length - 1 !== index) secretObj += '\n---\n'
         return secretObj

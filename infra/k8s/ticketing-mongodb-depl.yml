@@ -23,6 +23,7 @@ metadata:
   name: ticketing-mongo-srv
   namespace: ticketing
 spec:
+  type: NodePort
   selector:
     app: ticketing-mongo
   ports:
