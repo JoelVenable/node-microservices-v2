@@ -4,7 +4,7 @@ const buildClient = ({ req }) => {
     if (typeof window === 'undefined') {
         const { headers } = req;
         return axios.create({
-            baseURL: 'http://minikube.local',
+            baseURL: 'http://joelmusicman.jumpingcrab.com',
             headers
         })
     }

@@ -4,12 +4,12 @@ metadata:
   name: ingress-service
   namespace: ticketing
   annotations:
-    kubernetes.io/ingress.class: nginx
-    ingress.kubernetes.io/ssl-redirect: 'false'
+    # kubernetes.io/ingress.class: nginx
+    # ingress.kubernetes.io/ssl-redirect: 'false'
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-    - host:  minikube.local
+    - host:  joelmusicman.jumpingcrab.com
       http:
         paths:
           - path: /api/users/?(.*)
@@ -24,4 +24,8 @@ spec:
             backend:
               serviceName: client-clusterip-srv
               servicePort: 3000
+          # - path: /
+          #   backend:
+          #     serviceName: client-clusterip-srv
+          #     servicePort: 3000
 
