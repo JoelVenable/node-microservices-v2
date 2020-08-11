@@ -1,0 +1,1 @@
+export { natsClient } from './NatsClient'
