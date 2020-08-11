@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import app from "./app";
-import { natsClient } from "@jdvtickets/common";
+import { natsClient } from "./client";
 import { randomBytes } from "crypto";
 
 const { MONGO_CONNECTION_URI } = process.env;

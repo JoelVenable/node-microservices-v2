@@ -1,6 +1,8 @@
 import { Router, Response } from "express";
-import { UserRequest, requireAuth, validateParams, body, param, NotFoundError, UnauthorizedError, natsClient } from "@jdvtickets/common";
+import { UserRequest, requireAuth, validateParams, body, param, NotFoundError, UnauthorizedError } from "@jdvtickets/common";
 import { Ticket } from "../models";
+import { natsClient } from '../client'
+
 import { TicketUpdatedPublisher } from "../events/publishers/TicketUpdatedPublisher";
 
 const newTicket = (ticketRouter: Router) => ticketRouter.put('/:id',

@@ -9,7 +9,10 @@ const path = join(__dirname, '../../../.env.test')
 config({ path })
 let mongo: MongoMemoryServer
 
+jest.mock('../client/NatsClient')
+
 beforeAll(async () => {
+    console.log(process.env.NODE_ENV)
     mongo = new MongoMemoryServer();
     const uri = await mongo.getUri();
 

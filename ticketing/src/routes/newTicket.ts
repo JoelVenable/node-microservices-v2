@@ -1,5 +1,6 @@
 import { Router, Response } from "express";
-import { UserRequest, requireAuth, validateParams, body, natsClient } from "@jdvtickets/common";
+import { UserRequest, requireAuth, validateParams, body } from "@jdvtickets/common";
+import { natsClient } from '../client'
 import { Ticket } from "../models";
 import { TicketCreatedPublisher } from "../events/publishers";
 
