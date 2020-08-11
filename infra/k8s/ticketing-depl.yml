@@ -17,6 +17,14 @@ spec:
         - name: ticketing
           image: joelmusicman/ticketing
           env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: http://nats-srv:4222
+            - name: NATS_CLUSTER_ID
+              value: ticketing-app
             - name: JWT_SIGNING_KEY
               valueFrom:
                 secretKeyRef:

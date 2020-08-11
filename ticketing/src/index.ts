@@ -3,9 +3,16 @@ import app from "./app";
 import { natsClient } from "./client";
 import { randomBytes } from "crypto";
 
-const { MONGO_CONNECTION_URI } = process.env;
+const {
+  MONGO_CONNECTION_URI,
+  NATS_CLIENT_ID,
+  NATS_CLUSTER_ID,
+  NATS_URL
+} = process.env;
 if (typeof MONGO_CONNECTION_URI !== "string")
   throw new Error("Connection URI undefined");
+if (typeof NATS_CLIENT_ID !== "string")
+  throw new Error("Client ID undefined");
 
 const start = async () => {
   try {
@@ -19,8 +26,9 @@ const start = async () => {
   }
 
   await natsClient.connect({
-    uniqueId: randomBytes(3).toString("hex"),
-    serverUrl: "http://nats-srv:4222",
+    uniqueId: NATS_CLIENT_ID,
+    serviceName: NATS_CLUSTER_ID,
+    serverUrl: NATS_URL,
   });
 
   app.listen(3000, () => {
