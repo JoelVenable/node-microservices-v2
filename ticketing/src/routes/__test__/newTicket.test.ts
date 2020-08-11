@@ -2,6 +2,7 @@ import request from 'supertest'
 import app from '../../app'
 import { signin, getId } from '../../test/authHelper'
 import { Ticket } from '../../models'
+import { natsClient } from '../../client'
 
 const user = {
     id: getId(),
@@ -99,5 +100,27 @@ it('creates a ticket with valid inputs', async () => {
     expect(tickets[0].price).toEqual(price)
 
 
+
+})
+
+it('publishes an event', async () => {
+    const title = 'My awesome title'
+    const price = 102.23
+    let tickets = await Ticket.find({})
+    expect(tickets.length).toEqual(0)
+
+    // check mongo for record created.
+    const response = await postSignedIn()
+        .send({
+            title,
+            price
+        })
+    expect(response.status).toEqual(201)
+
+    tickets = await Ticket.find({})
+    expect(tickets.length).toEqual(1)
+
+
+    expect(natsClient.getClient().publish).toHaveBeenCalled()
 
 })

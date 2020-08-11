@@ -2,6 +2,7 @@ import request from 'supertest'
 import app from '../../app'
 import { signin, getId, User } from '../../test/authHelper'
 import { Ticket } from '../../models'
+import { natsClient } from '../../client'
 
 const userOne = {
     id: getId(),
@@ -185,9 +186,32 @@ it('updates a ticket with valid inputs', async () => {
     expect(response.body.price).toEqual(price)
     expect(response.body.version).toEqual(2)
 
+})
+
+it('publishes an event', async () => {
+
+    const created = await createTicket(userOne, {
+        title: 'My awesome title',
+        price: 11.00
+    })
+    expect(created.status).toEqual(201)
+    jest.clearAllMocks()
+
+    const { id } = created.body;
+
+    const title = 'It is actually better'
+    const price = 1100
+
+    const response = await putTicket(userOne, {
+        id,
+        title,
+        price
+    })
 
 
+    expect(natsClient.getClient().publish).toHaveBeenCalled()
 
 
 
 })
+

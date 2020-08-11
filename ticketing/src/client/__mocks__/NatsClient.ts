@@ -1,8 +1,14 @@
-
+import { v4 as uuid } from 'uuid'
 
 class MockNatsClient {
 
-    // private _client?: Stan
+    private _client = {
+        publish: jest.fn().mockImplementation(
+            (subject: string, data: string, callback: (err: Error | undefined, id: string) => void) => {
+                const id = uuid()
+                callback(undefined, id)
+            })
+    }
 
 
 
@@ -11,9 +17,7 @@ class MockNatsClient {
     }
 
     getClient() {
-        return {
-            publish: () => { }
-        }
+        return this._client
     }
 }
 
