@@ -1,18 +1,18 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import mongoose from 'mongoose';
-import request from 'supertest';
-import app from '../app';
+import { mongoose } from '@typegoose/typegoose';
 import { config } from 'dotenv'
 import { join } from 'path'
+import { Ticket, Order } from '../models';
 
 const path = join(__dirname, '../../../.env.test')
+
+console.log(path)
 config({ path })
 let mongo: MongoMemoryServer
 
 jest.mock('../client/NatsClient')
 
 beforeAll(async () => {
-    console.log(process.env.NODE_ENV)
     mongo = new MongoMemoryServer();
     const uri = await mongo.getUri();
 

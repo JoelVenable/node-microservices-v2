@@ -1,13 +1,11 @@
 import { prop, getModelForClass, modelOptions, DocumentType, plugin, Ref } from '@typegoose/typegoose'
 import { AutoIncrementSimple } from '@typegoose/auto-increment'
 import { TicketClass } from './Ticket'
+import { Order as OrderType } from '@jdvtickets/common'
 
-export enum OrderStatusType {
-    CREATED = 'created',
-    CANCELLED = 'cancelled',
-    AWAITING_PAYMENT = 'awaiting_payment',
-    COMPLETE = 'complete'
-}
+const { OrderStatusType } = OrderType
+
+export { OrderStatusType }
 
 @modelOptions({
     schemaOptions: {
@@ -35,8 +33,12 @@ class OrderClass {
     @prop({ required: true, index: true })
     public userId!: string
 
-    @prop({ required: true })
-    public status!: OrderStatusType
+    @prop({
+        required: true,
+        enum: Object.values(OrderType.OrderStatusType),
+        default: OrderType.OrderStatusType.CREATED
+    })
+    public status!: OrderType.OrderStatusType
 
     @prop({ required: false })
     public expiresAt?: Date
@@ -44,7 +46,7 @@ class OrderClass {
     @prop({ default: 1 })
     public version?: number
 
-    @prop({ ref: TicketClass })
+    @prop({ ref: 'Ticket' })
     public ticket!: Ref<TicketClass>
 
 }

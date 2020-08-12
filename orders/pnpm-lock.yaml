@@ -1,5 +1,5 @@
 dependencies:
-  '@jdvtickets/common': 1.6.1
+  '@jdvtickets/common': 1.6.3
   '@typegoose/auto-increment': 0.5.0_e2ea5f7489986ce0252d79539487cdd9
   '@typegoose/typegoose': 7.3.1_e2ea5f7489986ce0252d79539487cdd9
   '@types/cookie-session': 2.0.41
@@ -8,6 +8,7 @@ dependencies:
   '@types/mongoose': 5.7.36
   '@types/node': 14.0.27
   cookie-session: 1.4.0
+  date-fns: 2.15.0
   dotenv: 8.2.0
   express: 4.17.1
   express-async-errors: 3.1.1_express@4.17.1
@@ -320,7 +321,7 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
-  /@jdvtickets/common/1.6.1:
+  /@jdvtickets/common/1.6.3:
     dependencies:
       express: 4.17.1
       express-validator: 6.6.1
@@ -328,7 +329,7 @@ packages:
       node-nats-streaming: 0.3.2
     dev: false
     resolution:
-      integrity: sha512-V1C53ky0FwK8cfEkIr7smt04kL+pfqD6RUqSXZVFwPTppCrjZOPHxBh5wUddeOmZnITkhqdeW3eXrzEbJlsVqQ==
+      integrity: sha512-c2Hrbbx+Ws8sdfanQMe/yzqNKIO1nVSTqBK5ouN76Co/yKX5KMAxoVRONM4SM9hKhrPXUbosF2asXTkLmR45jQ==
   /@jest/console/26.2.0:
     dependencies:
       '@jest/types': 26.2.0
@@ -1529,6 +1530,12 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-X5eWTSXO/BJmpdIKCRuKUgSCgAN0OwliVK3yPKbwIWU1Tdw5BRajxlzMidvh+gwko9AfQ9zIj52pzF91Q3YAvQ==
+  /date-fns/2.15.0:
+    dev: false
+    engines:
+      node: '>=0.11'
+    resolution:
+      integrity: sha512-ZCPzAMJZn3rNUvvQIMlXhDr4A+Ar07eLeGsGREoWU19a3Pqf5oYa+ccd+B3F6XVtQY6HANMFdOQ8A+ipFnvJdQ==
   /dateformat/1.0.12:
     dependencies:
       get-stdin: 4.0.1
@@ -5373,7 +5380,7 @@ packages:
     resolution:
       integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 specifiers:
-  '@jdvtickets/common': ^1.6.1
+  '@jdvtickets/common': ^1.6.3
   '@typegoose/auto-increment': ^0.5.0
   '@typegoose/typegoose': ^7.2.0
   '@types/cookie-session': ^2.0.41
@@ -5384,6 +5391,7 @@ specifiers:
   '@types/node': ^14.0.19
   '@types/supertest': ^2.0.10
   cookie-session: ^1.4.0
+  date-fns: ^2.15.0
   dotenv: ^8.2.0
   express: ^4.17.1
   express-async-errors: ^3.1.1

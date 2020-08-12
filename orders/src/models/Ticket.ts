@@ -1,5 +1,6 @@
 import { prop, getModelForClass, modelOptions, DocumentType, plugin } from '@typegoose/typegoose'
 import { AutoIncrementSimple } from '@typegoose/auto-increment'
+import { Order, OrderStatusType } from './Order';
 
 @modelOptions({
     schemaOptions: {
@@ -24,8 +25,6 @@ import { AutoIncrementSimple } from '@typegoose/auto-increment'
 //     done()
 // })
 export class TicketClass {
-    @prop({ required: true, index: true })
-    public userId!: string
 
     @prop({ required: true })
     public title!: string
@@ -36,12 +35,26 @@ export class TicketClass {
     @prop({ default: 1 })
     public version?: number
 
-}
+    public async isReserved(): Promise<boolean> {
+        // Find all orders where ticket === requestedTicket, and status is not cancelled.  
+        // If we find an order, then the ticket is reserved.
+        const existingOrder = await Order.find({
+            ticket: this,
+            status: {
+                $in: [OrderStatusType.CREATED, OrderStatusType.AWAITING_PAYMENT, OrderStatusType.COMPLETE]
+            }
+        }).populate('Ticket')
+        return Boolean(existingOrder.length > 0)
+    }
 
+
+
+}
 
 
 export type TicketDocument = DocumentType<TicketClass>
 
 
 export const Ticket = getModelForClass(TicketClass);
+
 
