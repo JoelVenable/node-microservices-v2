@@ -8,14 +8,14 @@ const getTicketById = (ticketRouter: Router) => ticketRouter.get('/:id',
     async (req: UserRequest, res: Response) => {
         const { id } = req.params;
 
-        try {
-            const ticket = await Ticket.findById(id)
-            if (!ticket) throw new NotFoundError('Ticket')
-            res.status(200).send(ticket)
-        } catch (err) {
-            // console.log(err)
-            throw new NotFoundError('Ticket')
-        }
+        // try {
+        //     const ticket = await Ticket.findById(id)
+        //     if (!ticket) throw new NotFoundError('Ticket')
+        //     res.status(200).send(ticket)
+        // } catch (err) {
+        //     // console.log(err)
+        //     throw new NotFoundError('Ticket')
+        // }
 
     })
 
