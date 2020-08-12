@@ -5,14 +5,9 @@ import { natsClient } from '../client'
 
 // import { TicketUpdatedPublisher } from "../events/publishers/TicketUpdatedPublisher";
 
-const cancelOrder = (ticketRouter: Router) => ticketRouter.put('/:id',
+const cancelOrder = (orderRouter: Router) => orderRouter.delete('/:orderId',
     requireAuth,
-    param('id').isString(),
-    // [
-    //     body('title').notEmpty().withMessage('Title is required'),
-    //     body('price').isFloat({ gt: 0 }).notEmpty().withMessage('Price must be greater than 0')
-    // ],
-    // validateParams,
+    param('orderId').isString(),
     async (req: UserRequest, res: Response) => {
         // const { title, price } = req.body
         // const { id: userId } = req.currentUser!
@@ -36,6 +31,8 @@ const cancelOrder = (ticketRouter: Router) => ticketRouter.put('/:id',
         // })
 
         // res.status(200).send(response)
+
+        res.send({})
     })
 
 export default cancelOrder;

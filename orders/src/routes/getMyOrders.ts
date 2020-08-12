@@ -2,7 +2,7 @@ import { Router, Response } from "express";
 import { UserRequest, validateParams, param, NotFoundError } from "@jdvtickets/common";
 import { Ticket } from "../models";
 
-const getTicketList = (ticketRouter: Router) => ticketRouter.get('/',
+const getTicketList = (orderRouter: Router) => orderRouter.get('/',
     async (req: UserRequest, res: Response) => {
 
         // try {

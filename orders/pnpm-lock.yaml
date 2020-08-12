@@ -1,5 +1,5 @@
 dependencies:
-  '@jdvtickets/common': 1.6.0
+  '@jdvtickets/common': 1.6.1
   '@typegoose/auto-increment': 0.5.0_e2ea5f7489986ce0252d79539487cdd9
   '@typegoose/typegoose': 7.3.1_e2ea5f7489986ce0252d79539487cdd9
   '@types/cookie-session': 2.0.41
@@ -320,7 +320,7 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
-  /@jdvtickets/common/1.6.0:
+  /@jdvtickets/common/1.6.1:
     dependencies:
       express: 4.17.1
       express-validator: 6.6.1
@@ -328,7 +328,7 @@ packages:
       node-nats-streaming: 0.3.2
     dev: false
     resolution:
-      integrity: sha512-fKGGbdBbg+wSpbdmcaXKsVoKE6mpJ6e+LWRGQY0EWdZpRUeW1lG/wnJTF5+RG1ibuEnTK0o/OmGnd64hmdh3Kw==
+      integrity: sha512-V1C53ky0FwK8cfEkIr7smt04kL+pfqD6RUqSXZVFwPTppCrjZOPHxBh5wUddeOmZnITkhqdeW3eXrzEbJlsVqQ==
   /@jest/console/26.2.0:
     dependencies:
       '@jest/types': 26.2.0
@@ -5373,7 +5373,7 @@ packages:
     resolution:
       integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 specifiers:
-  '@jdvtickets/common': ^1.6.0
+  '@jdvtickets/common': ^1.6.1
   '@typegoose/auto-increment': ^0.5.0
   '@typegoose/typegoose': ^7.2.0
   '@types/cookie-session': ^2.0.41

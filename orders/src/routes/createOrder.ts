@@ -5,10 +5,12 @@ import { Ticket } from "../models";
 import { TicketCreatedPublisher } from "../events/publishers";
 
 
-const newOrder = (ticketRouter: Router) => ticketRouter.post('/',
+const newOrder = (orderRouter: Router) => orderRouter.post('/',
     requireAuth,
     [
-        body('ticketId').notEmpty().withMessage('TicketId is required'),
+        body('ticketId')
+            .notEmpty()
+            .withMessage('TicketId is required'),
     ],
     validateParams,
     async (req: UserRequest, res: Response) => {

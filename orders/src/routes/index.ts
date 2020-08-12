@@ -1,17 +1,17 @@
 import express from 'express';
-import newTicket from './newTicket';
-import getTicketById from './getTicketById';
-import getTicketList from './getTicketList';
+import getMyOrders from './getMyOrders';
+import getOrderById from './getOrderById';
+import createOrder from './createOrder';
+import cancelOrder from './cancelOrder';
 import { currentUser } from '@jdvtickets/common';
-import updateTicket from './updateTicket';
 
 const ordersRouter = express.Router();
 
 ordersRouter.use(currentUser)
 
-getTicketList(ordersRouter)
-newTicket(ordersRouter)
-getTicketById(ordersRouter)
-updateTicket(ordersRouter)
+getMyOrders(ordersRouter)
+getOrderById(ordersRouter)
+createOrder(ordersRouter)
+cancelOrder(ordersRouter)
 
 export default ordersRouter

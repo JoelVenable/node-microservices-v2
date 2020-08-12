@@ -1,12 +1,20 @@
-import { prop, getModelForClass, modelOptions, DocumentType, plugin } from '@typegoose/typegoose'
+import { prop, getModelForClass, modelOptions, DocumentType, plugin, Ref } from '@typegoose/typegoose'
 import { AutoIncrementSimple } from '@typegoose/auto-increment'
+import { TicketClass } from './Ticket'
+
+export enum OrderStatusType {
+    CREATED = 'created',
+    CANCELLED = 'cancelled',
+    AWAITING_PAYMENT = 'awaiting_payment',
+    COMPLETE = 'complete'
+}
 
 @modelOptions({
     schemaOptions: {
-        collection: 'Ticket',
+        collection: 'Order',
         timestamps: true,
         toJSON: {
-            transform: (doc: DocumentType<TicketClass>, ret) => {
+            transform: (doc: DocumentType<OrderClass>, ret) => {
                 delete ret.__v;
                 ret.id = ret._id;
                 delete ret._id;
@@ -15,7 +23,7 @@ import { AutoIncrementSimple } from '@typegoose/auto-increment'
     }
 })
 @plugin(AutoIncrementSimple, [{ field: 'version' }])
-// @pre<TicketClass>('save', async function (done) {
+// @pre<OrderClass>('save', async function (done) {
 //     if (this.isModified('password')) {
 //         const hashed = await CryptoService.toHash(this.get('password'))
 //         this.set('password', hashed)
@@ -23,25 +31,28 @@ import { AutoIncrementSimple } from '@typegoose/auto-increment'
 //     // if (this._id === undefined || this._id === null) this._id = uuid({})
 //     done()
 // })
-export class TicketClass {
+class OrderClass {
     @prop({ required: true, index: true })
     public userId!: string
 
     @prop({ required: true })
-    public title!: string
+    public status!: OrderStatusType
 
-    @prop({ required: true })
-    public price!: number
+    @prop({ required: false })
+    public expiresAt?: Date
 
     @prop({ default: 1 })
     public version?: number
+
+    @prop({ ref: TicketClass })
+    public ticket!: Ref<TicketClass>
 
 }
 
 
 
-export type TicketDocument = DocumentType<TicketClass>
+export type OrderDocument = DocumentType<OrderClass>
 
 
-export const Ticket = getModelForClass(TicketClass);
+export const Order = getModelForClass(OrderClass);
 

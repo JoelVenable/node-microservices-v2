@@ -2,11 +2,11 @@ import { Router, Response } from "express";
 import { UserRequest, validateParams, param, NotFoundError } from "@jdvtickets/common";
 import { Ticket } from "../models";
 
-const getTicketById = (ticketRouter: Router) => ticketRouter.get('/:id',
-    param('id').isString(),
+const getTicketById = (orderRouter: Router) => orderRouter.get('/:orderId',
+    param('orderId').isString(),
     validateParams,
     async (req: UserRequest, res: Response) => {
-        const { id } = req.params;
+        const { orderId } = req.params;
 
         // try {
         //     const ticket = await Ticket.findById(id)
