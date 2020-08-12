@@ -2,7 +2,7 @@ import { Topics } from "../../Topics";
 import { BaseEvent } from "../../Base/BaseEvent";
 
 
-export interface OrderCreatedData {
+export interface OrderCancelledData {
     id: string
     title: string
     price: number
@@ -11,7 +11,7 @@ export interface OrderCreatedData {
 }
 
 
-export interface OrderCreatedEvent extends BaseEvent {
-    subject: Topics.OrderCreated
-    data: OrderCreatedData
+export interface OrderCancelledEvent extends BaseEvent {
+    subject: Topics.OrderCancelled
+    data: OrderCancelledData
 }

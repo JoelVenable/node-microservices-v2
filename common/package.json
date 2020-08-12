@@ -1,6 +1,6 @@
 {
   "name": "@jdvtickets/common",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -10,6 +10,7 @@
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "tsc",
+    "prepublish": "npm run build",
     "doesntwork": "npm run build && git add . && git commit -m \"New release\" && npm version patch"
   },
   "keywords": [],
