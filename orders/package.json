@@ -12,7 +12,10 @@
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
       "./src/test/setup.ts"
-    ]
+    ],
+    "paths": {
+      "@App/*": ["src/*"]
+    }
   },
   "keywords": [],
   "author": "",
@@ -25,6 +28,7 @@
     "@types/express": "^4.17.6",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.7.30",
+    "@types/mongoose-autopopulate": "^0.10.1",
     "@types/node": "^14.0.19",
     "cookie-session": "^1.4.0",
     "date-fns": "^2.15.0",
@@ -33,6 +37,7 @@
     "express-async-errors": "^3.1.1",
     "express-validator": "^6.6.0",
     "mongoose": "^5.9.22",
+    "mongoose-autopopulate": "^0.12.2",
     "node-nats-streaming": "^0.3.2",
     "ts-node-dev": "^1.0.0-pre.50",
     "typescript": "^3.9.6"

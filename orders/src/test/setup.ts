@@ -6,7 +6,6 @@ import { Ticket, Order } from '../models';
 
 const path = join(__dirname, '../../../.env.test')
 
-console.log(path)
 config({ path })
 let mongo: MongoMemoryServer
 
@@ -15,7 +14,7 @@ jest.mock('../client/NatsClient')
 beforeAll(async () => {
     mongo = new MongoMemoryServer();
     const uri = await mongo.getUri();
-
+    mongoose.set('useCreateIndex', true)
     await mongoose.connect(uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true

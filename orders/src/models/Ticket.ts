@@ -13,6 +13,9 @@ import { Order, OrderStatusType } from './Order';
                 delete ret._id;
             }
         }
+    },
+    options: {
+        customName: 'Ticket'
     }
 })
 @plugin(AutoIncrementSimple, [{ field: 'version' }])
@@ -43,7 +46,7 @@ export class TicketClass {
             status: {
                 $in: [OrderStatusType.CREATED, OrderStatusType.AWAITING_PAYMENT, OrderStatusType.COMPLETE]
             }
-        }).populate('Ticket')
+        })
         return Boolean(existingOrder.length > 0)
     }
 

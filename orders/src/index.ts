@@ -16,6 +16,7 @@ if (typeof NATS_CLIENT_ID !== "string")
 
 const start = async () => {
   try {
+    mongoose.set('useCreateIndex', true)
     await mongoose.connect(MONGO_CONNECTION_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

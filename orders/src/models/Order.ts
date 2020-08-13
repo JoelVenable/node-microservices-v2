@@ -1,7 +1,10 @@
-import { prop, getModelForClass, modelOptions, DocumentType, plugin, Ref } from '@typegoose/typegoose'
+import { prop, getModelForClass, modelOptions, DocumentType, plugin, Ref, mongoose } from '@typegoose/typegoose'
 import { AutoIncrementSimple } from '@typegoose/auto-increment'
 import { TicketClass } from './Ticket'
 import { Order as OrderType } from '@jdvtickets/common'
+import autopopulate from 'mongoose-autopopulate'
+import { Schema } from 'mongoose'
+
 
 const { OrderStatusType } = OrderType
 
@@ -21,6 +24,7 @@ export { OrderStatusType }
     }
 })
 @plugin(AutoIncrementSimple, [{ field: 'version' }])
+@plugin(autopopulate as any)
 // @pre<OrderClass>('save', async function (done) {
 //     if (this.isModified('password')) {
 //         const hashed = await CryptoService.toHash(this.get('password'))
@@ -46,7 +50,7 @@ class OrderClass {
     @prop({ default: 1 })
     public version?: number
 
-    @prop({ ref: 'Ticket' })
+    @prop({ type: mongoose.Types.ObjectId, ref: 'Ticket', autopopulate: true })
     public ticket!: Ref<TicketClass>
 
 }

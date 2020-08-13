@@ -1,17 +1,17 @@
 import { Router, Response } from "express";
-import { UserRequest, validateParams, param, NotFoundError } from "@jdvtickets/common";
-import { Ticket } from "../models";
+import { UserRequest, validateParams, param, NotFoundError, requireAuth } from "@jdvtickets/common";
+import { Order } from "../models";
 
 const getTicketList = (orderRouter: Router) => orderRouter.get('/',
+    requireAuth,
     async (req: UserRequest, res: Response) => {
+        const userId = req.currentUser!.id
 
-        // try {
-        //     const tickets = await Ticket.find({})
-        //     res.status(200).send(tickets)
-        // } catch (err) {
-        //     // console.log(err)
-        //     throw new NotFoundError('Ticket')
-        // }
+        const orders = await Order.find({
+            userId
+        })
+
+        res.send(orders)
 
     })
 
